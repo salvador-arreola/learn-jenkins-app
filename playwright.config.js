@@ -33,7 +33,7 @@ module.exports = defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     launchOptions: {
-      executablePath: '/ms-playwright/chromium-1161/chrome-linux'
+      executablePath: '/ms-playwright/chromium-1161/chrome-linux/chrome'
     }
   },
 
