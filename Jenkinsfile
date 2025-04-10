@@ -84,7 +84,7 @@ pipeline {
             steps {
                 sh '''
                     npm install netlify-cli
-                    node_modules/.bin/netlify deploy --prod
+                    node_modules/.bin/netlify deploy --dir=build --prod
                 '''
             }
         }
