@@ -16,7 +16,8 @@ pipeline {
             steps {
                 cleanWs()
                 sh '''
-                    npm ci
+                    set -x
+                    npm ci --verbose
                     npm run build
                 '''
             }
