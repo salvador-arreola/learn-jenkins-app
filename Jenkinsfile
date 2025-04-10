@@ -17,6 +17,8 @@ pipeline {
                 cleanWs()
                 checkout scm
                 sh '''
+                    echo "Inside container"
+                    ls -l
                     set -x
                     npm ci --verbose
                     npm run build
