@@ -15,6 +15,7 @@ pipeline {
             }
             steps {
                 cleanWs()
+                checkout scm
                 sh '''
                     set -x
                     npm ci --verbose
