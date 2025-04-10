@@ -2,6 +2,12 @@ pipeline {
     agent any
 
     stages {
+        stage('Prep Workspace') {
+            steps {
+                cleanWs()
+                checkout scm
+            }
+        }
         // Comment
         stage('Build') {
             /*
@@ -14,8 +20,6 @@ pipeline {
                 }
             }
             steps {
-                cleanWs()
-                checkout scm
                 sh '''
                     echo "Inside container"
                     ls -l
