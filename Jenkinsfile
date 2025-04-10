@@ -24,6 +24,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    echo "small change"
                     npm ci --verbose
                     npm run build
                 '''
