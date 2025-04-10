@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+    environment {
+        NETLIFY_SITE_ID = '52001967-cfe8-4cd9-afee-1001741d1cc0'
+        NETLIFY_AUTH_TOKEN = credentials('netfly-token')
+    }
     stages {
         stage('Prep Workspace') {
             steps {
@@ -21,9 +24,6 @@ pipeline {
             }
             steps {
                 sh '''
-                    echo "Inside container"
-                    ls -l
-                    set -x
                     npm ci --verbose
                     npm run build
                 '''
@@ -72,6 +72,20 @@ pipeline {
                          }
                      }
                 }
+            }
+        }
+        stage('Deploy') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    npm install netlify-cli -g
+                    node_modules/.bin/netlify deploy --prod
+                '''
             }
         }
     }
