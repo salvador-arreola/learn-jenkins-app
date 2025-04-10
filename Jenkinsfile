@@ -24,7 +24,6 @@ pipeline {
             }
             steps {
                 sh '''
-                    echo "small change"
                     npm ci --verbose
                     npm run build
                 '''
@@ -88,6 +87,27 @@ pipeline {
                     node_modules/.bin/netlify deploy --dir=build --prod
                 '''
             }
+        }
+        stage('Prod E2E') {
+            environment {
+                CI_ENVIRONMENT_URL = 'https://amazing-lebkuchen-b1805b.netlify.app'
+            }
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.51.1-jammy'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    npx playwright test --reporter=html
+                '''
+            }
+             post {
+                 always {
+                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'E2E production HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                 }
+             }
         }
     }
 }
